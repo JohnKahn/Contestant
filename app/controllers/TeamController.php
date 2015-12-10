@@ -20,4 +20,8 @@ class TeamController extends Controller {
     public function submitAction() {
     	
     }
+
+    public function editorAction() {
+        
+    }
 }

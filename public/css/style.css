@@ -37,5 +37,6 @@
 
 #editor {
 	width: 100%;
-	height: calc(100vh - 64px);
+	height: calc(100vh - 48px);
+	font-size: 18px;
 }

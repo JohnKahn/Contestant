@@ -1,10 +1,20 @@
-{% extends "layouts/main.volt" %}
-
-{% block title %}{{ super() }}
+a:7:{i:0;s:41:"<!DOCTYPE html>
+<html>
+<head>
+	<title>";s:5:"title";s:22:"Contestant - 
 	Home
-{% endblock %}
+";i:1;s:341:"</title>
 
-{% block content %}
+	<!-- Bootstrap -->
+	
+
+	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<?php echo $this->tag->stylesheetLink('css/style.css'); ?>
+	<?php echo $this->tag->stylesheetLink('css/materialize.min.css'); ?>
+	<?php echo $this->tag->stylesheetLink('css/snarl.min.css'); ?>
+</head>
+<body>
+	";s:7:"content";s:2379:"
 
 <div class="row fill-height no-mar">
 	<div class="col s12 m5 l3 blue-grey darken-4 white-text" style="position: relative;">
@@ -57,33 +67,33 @@
 		</div>
 	</div>
 	<div class="col s12 m7 l9 white pos-rel no-pad">
-
-		<div class="row no-mar">
-			<div class="col s12">
-				<ul class="tabs">
-					<li class="tab col s4"><a class="active" href="#scoreboard">Scoreboard</a></li>
-					<li class="tab col s4"><a class="active" href="#clarification">Clarification</a></li>
-					<li class="tab col s4"><a href="#editor">Editor</a></li>
+		<nav>
+			<div class="nav-wrapper blue-grey darken-1">
+				<ul id="nav-mobile">
+					<li><a href="#">Scoreboard</a></li>
+					<li><a href="#">Clarification</a></li>
+					<li><a href="#">Editor</a></li>
 				</ul>
 			</div>
-			<div id="scoreboard" class="col s12">Test 1</div>
-			<div id="clarification" class="col s12">Test 2</div>
-			<div id="editor">public class HelloWorld {
-	public static void main(String[] args) {
-		System.out.println("Hello World!");
-	}
-}</div>
-		</div>
+		</nav>
+
+		<?php echo $this->getContent(); ?>
 
 		<a href="http://www.github.com/JohnKahn" target="_blank" class="waves-effect waves-orange btn-flat creator-link white-text thin">Created by John Kahn</a>
 	</div>
 </div>
 
-{% endblock %}
+";i:2;s:288:"
 
-{% block scripts %}
-{{ super() }}
-{{ javascript_include("ace/ace.js") }}
+	<?php echo $this->tag->javascriptInclude('js/jquery-2.1.1.min.js'); ?>
+	<?php echo $this->tag->javascriptInclude('js/materialize.min.js'); ?>
+	<?php echo $this->tag->javascriptInclude('js/snarl.min.js'); ?>
+	<?php echo $this->tag->javascriptInclude('js/jquery.form.min.js'); ?>
+	";s:7:"scripts";s:559:"
+
+	<?php echo $this->tag->javascriptInclude('js/script.js'); ?>
+	
+<?php echo $this->tag->javascriptInclude('ace/ace.js'); ?>
 <script>
 	$('#submitionForm').ajaxForm(function(data) { 
 		Snarl.addNotification({
@@ -94,11 +104,11 @@
 		});
 	});
 
-	$('ul.tabs').tabs();
-
 	var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/java");
     editor.setShowPrintMargin(false);
 </script>
-{% endblock %}
+";i:3;s:18:"
+</body>
+</html>";}

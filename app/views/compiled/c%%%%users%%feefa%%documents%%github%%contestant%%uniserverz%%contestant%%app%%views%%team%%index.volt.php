@@ -67,21 +67,25 @@
 		</div>
 	</div>
 	<div class="col s12 m7 l9 white pos-rel no-pad">
-		<nav>
-			<div class="nav-wrapper blue-grey darken-1">
-				<ul id="nav-mobile">
-					<li><a href="#">Scoreboard</a></li>
-					<li><a href="#">Clarification</a></li>
-					<li><a href="#">Editor</a></li>
+
+		<div class="row no-mar">
+			<div class="col s12">
+				<ul class="tabs">
+					<li class="tab col s4"><a class="active" href="#scoreboard">Scoreboard</a></li>
+					<li class="tab col s4"><a class="active" href="#clarification">Clarification</a></li>
+					<li class="tab col s4"><a href="#editor">Editor</a></li>
 				</ul>
 			</div>
-		</nav>
-
-		<div id="editor">public class DryRun {
-
+			<div id="scoreboard" class="col s12">Test 1</div>
+			<div id="clarification" class="col s12">Test 2</div>
+			<div id="editor">public class HelloWorld {
+	public static void main(String[] args) {
+		System.out.println("Hello World!");
+	}
 }</div>
+		</div>
 
-		<a hreaf="http://www.google.com/" target="_blank" class="waves-effect waves-orange btn-flat creator-link white-text thin">Created by John Kahn</a>
+		<a href="http://www.github.com/JohnKahn" target="_blank" class="waves-effect waves-orange btn-flat creator-link white-text thin">Created by John Kahn</a>
 	</div>
 </div>
 
@@ -105,6 +109,8 @@
 			timeout: null
 		});
 	});
+
+	$('ul.tabs').tabs();
 
 	var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
