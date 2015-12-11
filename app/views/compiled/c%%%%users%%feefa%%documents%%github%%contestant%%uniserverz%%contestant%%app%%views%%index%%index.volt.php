@@ -9,11 +9,13 @@
 	
 
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<?php echo $this->tag->stylesheetLink('css/style.css'); ?>
 	<?php echo $this->tag->stylesheetLink('css/materialize.min.css'); ?>
+	<?php echo $this->tag->stylesheetLink('css/style.css'); ?>
 	<?php echo $this->tag->stylesheetLink('css/snarl.min.css'); ?>
 </head>
 <body>
+	<div id="whiteCover" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background-color:white; z-index: 100;"></div>
+
 	
 
 <div class="row fill-height">
@@ -35,12 +37,14 @@
 					</button>
 				</div>
 			</div>
+			<div class="center-align"><?php $this->flashSession->output() ?></div>
 		</form>
 
 		<a class="waves-effect waves-teal btn-flat white-text" style="position: absolute; bottom: 5px;">Admin Panel</a>
 	</div>
 	<div class="col s12 m7 l9 white">
-		
+		<h1 class="center-align">Welcome</h1>
+		<p class="center-align">Head on over to the admin panel to set up your competition and change this to display anything you want. Such as rules, tips, allowed hardware, etc.</p>
 	</div>
 </div>
 
@@ -53,5 +57,8 @@
 	
 	<?php echo $this->tag->javascriptInclude('js/script.js'); ?>
 	
+	<script type="text/javascript">
+		$("#whiteCover").fadeOut();
+	</script>
 </body>
 </html>

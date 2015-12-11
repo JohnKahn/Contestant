@@ -19,3 +19,6 @@ Because it is written in PHP, there is no need for any special tools. Just make 
 The backend Admin Panel makes editing the configuration or adding teams a breeze.
 
 Because everything is on the web, you open it up in a browser and login like any other website. Could it be any easier?
+
+### Languages
+Currently, only Java is available. But, C++ will be next!

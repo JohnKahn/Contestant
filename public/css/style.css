@@ -28,15 +28,56 @@
 }
 
 .creator-link {
-	position: absolute !important;
+	position: fixed !important;
 	padding-left: 20px !importnat;
 	padding-right: 20px !importnat;
 	bottom: 10px !important;
-	right: 5px !important;
+	left: 5px !important;
+}
+
+#editorPanel {
+	width: 100%;
+	height: calc(100vh - 48px);
 }
 
 #editor {
 	width: 100%;
 	height: calc(100vh - 48px);
-	font-size: 18px;
+	font-size: 14px;
+}
+
+#editorFileList {
+	height: calc(100vh - 48px);
+	padding: 0;
+	background-color: #e8e8e8;
+}
+
+#editorFileList h6 {
+	font-size: 1.3em;
+}
+
+#editorFileList h6, #editorFileList li a {
+	padding: 5px 10px;
+	color: black;
+}
+
+#editorFileList li a {
+	display: block;
+	font-size: 0.85em;
+}
+
+#editorFileList li:nth-child(odd) a {
+	background: hsla(0, 0%, 0%, 0.05);
+}
+
+#editorFileList li a:hover {
+	background: hsla(0, 0%, 0%, 0.1);
+}
+
+.tabs > .indicator {
+	background-color: #90a4ae;
+}
+
+.select-wrapper .caret {
+	color: white !important;
 }

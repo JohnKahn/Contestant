@@ -1,4 +1,4 @@
-{% extends "templates/main.volt" %}
+{% extends "layouts/main.volt" %}
 
 {% block title %}{{ super() }}
 	Home
@@ -25,12 +25,14 @@
 					</button>
 				</div>
 			</div>
+			<div class="center-align"><?php $this->flashSession->output() ?></div>
 		</form>
 
 		<a class="waves-effect waves-teal btn-flat white-text" style="position: absolute; bottom: 5px;">Admin Panel</a>
 	</div>
 	<div class="col s12 m7 l9 white">
-		
+		<h1 class="center-align">Welcome</h1>
+		<p class="center-align">Head on over to the admin panel to set up your competition and change this to display anything you want. Such as rules, tips, allowed hardware, etc.</p>
 	</div>
 </div>
 
