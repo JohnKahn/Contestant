@@ -7,7 +7,7 @@
 {% block content %}
 
 <div class="row fill-height no-mar">
-	<div class="col s12 m5 l3 blue-grey darken-4 white-text">
+	<div class="col s12 m5 l3 blue-grey darken-3 white-text">
 		<h3 class="center-align" style="margin-bottom: 0;">Submission</h3>
 		<div class="row">
 			<div class="switch center-align">

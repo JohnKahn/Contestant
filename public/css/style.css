@@ -81,3 +81,152 @@
 .select-wrapper .caret {
 	color: white !important;
 }
+
+.admin-sidebar {
+	height: 100vh;
+	width: 250px;
+	padding: 0 !important;
+	position: relative;
+	z-index: 500;
+}
+
+.admin-sidebar > .menu-header {
+	padding: 30px 0 30px 0;
+	text-align: center;
+	background: url("/img/admin_header_bg.jpg");
+	background-size: cover;
+	margin-bottom: 20px;
+}
+
+.admin-sidebar > .menu-header > img {
+	width: 100px;
+	border-radius: 100%;
+	border: 3px solid #fff;
+}
+
+.admin-sidebar > .menu {
+	margin: 0;
+}
+
+.admin-sidebar > .menu > .menu-item {
+	margin: 0;
+	padding: 0;
+}
+
+.admin-sidebar > .menu > .menu-item:hover {
+	background: rgba(0, 0, 0, 0.1);
+}
+
+.admin-sidebar > .menu > .menu-item > a {
+	width: 100%;
+}
+
+.admin-sidebar > .menu > .menu-item > a > p {
+	font-size: 18px;
+	margin: 5px 0;
+}
+
+.admin-main {
+	height: 100vh;
+	width: calc(100% - 250px);
+	overflow: auto;
+}
+
+.stupidTable th {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.stupidTable th:hover {
+	cursor: pointer;
+}
+
+.stupidTable th:after {
+	content: "\00a0\00a0\00a0\00a0\00a0\00a0";
+}
+
+.stupidTable th.sorting-desc:after {
+	content: "\00a0\00a0\25b2" !important;
+}
+
+.stupidTable th.sorting-asc:after {
+	content: "\00a0\00a0\25bc" !important;
+}
+
+.light_graph .ct-grid {
+	stroke: white !important;
+	stroke-dasharray: 0 !important;
+}
+
+.light_graph .ct-grid.ct-horizontal {
+	stroke-width: 0px;
+}
+
+.light_graph .ct-series .ct-line,
+.light_graph .ct-series .ct-point {
+	stroke: white !important;
+	stroke-width: 2px;
+}
+
+.light_graph .ct-series .ct-bar {
+	stroke: white !important;
+	stroke-width: 15px;
+}
+
+.light_graph .ct-area {
+	fill: rgba(255, 255, 255, 1) !important;
+	fill-opacity: 0.5 !important;
+}
+
+.light_graph .ct-label {
+	font-size: 16px !important;
+	color: white !important;
+	position: relative;
+	bottom: -7px;
+}
+
+.light_graph .ct-axis-title {
+	font-size: 18px !important;
+	fill: white !important;
+}
+
+.dark_graph .ct-grid {
+	stroke: #616161 !important;
+	stroke-dasharray: 0 !important;
+}
+
+.dark_graph .ct-grid.ct-horizontal {
+	stroke-width: 0px;
+}
+
+.dark_graph .ct-series .ct-line,
+.dark_graph .ct-series .ct-point {
+	stroke: #424242 !important;
+	stroke-width: 2px;
+}
+
+.dark_graph .ct-series .ct-bar {
+	stroke: #424242 !important;
+	stroke-width: 15px;
+}
+
+.dark_graph .ct-area {
+	fill: #424242 !important;
+	fill-opacity: 0.5 !important;
+}
+
+.dark_graph .ct-label {
+	font-size: 16px !important;
+	color: #424242 !important;
+	position: relative;
+	bottom: -7px;
+}
+
+.dark_graph .ct-axis-title {
+	font-size: 18px !important;
+	fill: #424242 !important;
+}

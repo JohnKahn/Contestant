@@ -5,14 +5,6 @@ use Phalcon\Mvc\Router;
 $router = new Router();
 
 $router->add(
-    "/login",
-    array(
-        'controller' => 'team',
-        'action'     => 'login'
-    )
-);
-
-$router->add(
     "/team",
     array(
         'controller' => 'team',
@@ -25,6 +17,22 @@ $router->add(
     array(
         'controller' => 'team',
         'action'     => 'submit'
+    )
+);
+
+$router->add(
+    "/admin/login",
+    array(
+        'controller' => 'admin',
+        'action'     => 'login'
+    )
+);
+
+$router->add(
+    "/admin",
+    array(
+        'controller' => 'admin',
+        'action'     => 'index'
     )
 );
 

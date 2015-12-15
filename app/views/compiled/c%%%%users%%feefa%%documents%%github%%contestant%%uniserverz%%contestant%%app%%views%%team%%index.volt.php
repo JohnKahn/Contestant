@@ -5,21 +5,31 @@
 	Home
 </title>
 
-	<!-- Bootstrap -->
-	
-
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<?php echo $this->tag->stylesheetLink('css/materialize.min.css'); ?>
 	<?php echo $this->tag->stylesheetLink('css/style.css'); ?>
 	<?php echo $this->tag->stylesheetLink('css/snarl.min.css'); ?>
+	<?php echo $this->tag->stylesheetLink('css/chartist.min.css'); ?>
 </head>
 <body>
-	<div id="whiteCover" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; background-color:white; z-index: 100;"></div>
+	<div id="whiteCover" class="valign-wrapper" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color:white; z-index: 10000;">
+		<div class="preloader-wrapper big active valign" style="margin: 0 auto;">
+			<div class="spinner-layer spinner-yello-only">
+				<div class="circle-clipper left">
+					<div class="circle"></div>
+				</div><div class="gap-patch">
+					<div class="circle"></div>
+				</div><div class="circle-clipper right">
+					<div class="circle"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	
 
 <div class="row fill-height no-mar">
-	<div class="col s12 m5 l3 blue-grey darken-4 white-text">
+	<div class="col s12 m5 l3 blue-grey darken-3 white-text">
 		<h3 class="center-align" style="margin-bottom: 0;">Submission</h3>
 		<div class="row">
 			<div class="switch center-align">
@@ -263,7 +273,10 @@
 	<?php echo $this->tag->javascriptInclude('js/jquery-2.1.1.min.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/materialize.min.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/snarl.min.js'); ?>
+	<?php echo $this->tag->javascriptInclude('js/chartist.min.js'); ?>
+	<?php echo $this->tag->javascriptInclude('js/chartist-plugin-axistitle.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/jquery.form.min.js'); ?>
+	<?php echo $this->tag->javascriptInclude('js/stupidtable.min.js'); ?>
 	
 
 	<?php echo $this->tag->javascriptInclude('js/script.js'); ?>
@@ -318,7 +331,9 @@
 </script>
 
 	<script type="text/javascript">
-		$("#whiteCover").fadeOut();
+		$(window).load(function() {
+			$("#whiteCover").delay(500).fadeOut(1000);
+		});
 	</script>
 </body>
 </html>
