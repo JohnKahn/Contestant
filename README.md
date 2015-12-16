@@ -17,7 +17,7 @@ You can edit the files on Ace and save them to the host computer where you can t
 ### Written in PHP, backed up by C
 Contestant uses PhalconPHP, a php framework written as a C-extension, optimized for speed!
 
-Because it is written in PHP, there is no need for any special tools. Just make sure to have the compilers you want and a browser other than Internet Explorer and you're ready to go!
+Because it is written in PHP, there is no need for any special tools. Just make sure to have the Java JDK and a browser of your choice and you're ready to go!
 
 ### Easy on the Admins
 The backend Admin Panel makes editing the configuration or adding teams a breeze.
