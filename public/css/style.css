@@ -141,7 +141,9 @@
 	user-select: none;
 }
 
-.stupidTable th:hover {
+.stupidTable th[data-sort="string"]:hover,
+.stupidTable th[data-sort="int"]:hover,
+.stupidTable th[data-sort="float"]:hover {
 	cursor: pointer;
 }
 

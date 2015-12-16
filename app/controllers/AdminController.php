@@ -7,8 +7,8 @@ class AdminController extends Controller {
 
 	private $timeout = 21600;
 
-    public function indexAction() {
-    	if ($this->request->isPost()) {
+	public function indexAction() {
+		if ($this->request->isPost()) {
 			$filter = new Filter();
 
 			$filter->add('username', function ($value) {
@@ -66,21 +66,43 @@ class AdminController extends Controller {
 			$this->flashSession->error("Please sign in first");
 			return $this->response->redirect("/admin/login");
 		}
-    }
+	}
 
-    public function loginAction() {
-    	if (!$this->flashSession->has("error") && $this->session->has("admin_user")) {
-    		return $this->response->redirect("/admin");
-    	}
-    }
+	public function loginAction() {
+		$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
+		if (!$this->flashSession->has("error") && $this->session->has("admin_user")) {
+			return $this->response->redirect("/admin");
+		}
+	}
 
-    public function logoutAction() {
-    	if ($this->session->has("admin_user")) {
-    		$this->session->remove("admin_user");
-    		$this->session->remove("admin_key");
-    		$this->session->remove("admin_timeout");
-    	}
+	public function logoutAction() {
+		if ($this->session->has("admin_user")) {
+			$this->session->remove("admin_user");
+			$this->session->remove("admin_key");
+			$this->session->remove("admin_timeout");
+		}
 
-    	return $this->response->redirect("/admin/login");
-    }
+		return $this->response->redirect("/admin/login");
+	}
+
+	public function teamsAction() {
+		if ($this->request->isAjax() && $this->request->isPost()) {
+			if ($this->request->hasPost("type") && $this->request->has("")) {
+				
+			}
+		}
+	}
+
+	public function problemsAction() {
+
+	}
+
+	public function judgeAction() {
+
+	}
+
+	public function configurationAction() {
+
+	}
+
 }

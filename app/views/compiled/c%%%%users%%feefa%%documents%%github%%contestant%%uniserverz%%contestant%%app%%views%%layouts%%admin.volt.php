@@ -1,7 +1,9 @@
-a:7:{i:0;s:41:"<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>";s:5:"title";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:13:"Contestant - ";s:4:"file";s:30:"../app/views/layouts/main.volt";s:4:"line";i:4;}}i:1;s:1516:"</title>
+	<title>Contestant - 
+	Home
+</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -34,9 +36,58 @@ a:7:{i:0;s:41:"<!DOCTYPE html>
 		</div>
 	</div>
 
-	";s:7:"content";N;i:2;s:5:"
+	
+<div class="row no-mar">
+	<div class="col l2 m3 hide-on-small-only admin-sidebar white z-depth-2">
+		<div class="menu-header">
+			<img src="/img/placeholder_admin.jpg">
+		</div>
+		<ul class="menu">
+			<li class="menu-item row">
+				<a href="/admin" class="valign-wrapper grey-text text-darken-3">
+					<i class="material-icons col s2 valign">dashboard</i>
+					<p class="col s10 valign">Dashboard</p>
+				</a>
+			</li>
+			<li class="menu-item row">
+				<a href="/admin/teams" class="valign-wrapper grey-text text-darken-3">
+					<i class="material-icons col s2 valign">group</i>
+					<p class="col s10 valign">Teams</p>
+				</a>
+			</li>
+			<li class="menu-item row">
+				<a href="/admin/problems" class="valign-wrapper grey-text text-darken-3">
+					<i class="material-icons col s2 valign">code</i>
+					<p class="col s10 valign">Problems</p>
+				</a>
+			</li>
+			<li class="menu-item row">
+				<a href="/admin/judge" class="valign-wrapper grey-text text-darken-3">
+					<i class="material-icons col s2 valign">gavel</i>
+					<p class="col s10 valign">Judge</p>
+				</a>
+			</li>
+			<li class="menu-item row">
+				<a href="/admin/configuration" class="valign-wrapper grey-text text-darken-3">
+					<i class="material-icons col s2 valign">settings</i>
+					<p class="col s10 valign">Configuration</p>
+				</a>
+			</li>
+			<li class="menu-item row">
+				<a href="/admin/logout" class="valign-wrapper grey-text text-darken-3">
+					<i class="material-icons col s2 valign">arrow_back</i>
+					<p class="col s10 valign">Log out</p>
+				</a>
+			</li>
+		</ul>
+	</div>
+	<div class="col l10 m9 s12 admin-main grey lighten-5">
+		<?php echo $this->getContent(); ?>
+	</div>
+</div>
 
-	";s:7:"scripts";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:379:"
+
+	
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$('select').material_select();
@@ -50,11 +101,11 @@ a:7:{i:0;s:41:"<!DOCTYPE html>
 			});
 		});
 	</script>
-	";s:4:"file";s:30:"../app/views/layouts/main.volt";s:4:"line";i:53;}}i:3;s:148:"
+	
 	<script type="text/javascript">
 		$(window).load(function() {
 			$("#whiteCover").delay(500).fadeOut(250);
 		});
 	</script>
 </body>
-</html>";}
+</html>
