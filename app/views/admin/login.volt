@@ -11,6 +11,7 @@
 			<div class="card-content">
 				<div class="row no-mar">
 					<h4 class="center-align">Admin Login</h4>
+					<input type="hidden" name="type" value="login">
 					<div class="input-field col s12">
 						<input id="username" name="user" type="text">
 						<label for="username">Username</label>

@@ -50,6 +50,12 @@
 				</a>
 			</li>
 			<li class="menu-item row">
+				<a href="/admin/judge" class="valign-wrapper grey-text text-darken-3">
+					<i class="material-icons col s2 valign">gavel</i>
+					<p class="col s10 valign">Judge</p>
+				</a>
+			</li>
+			<li class="menu-item row">
 				<a href="/admin/teams" class="valign-wrapper grey-text text-darken-3">
 					<i class="material-icons col s2 valign">group</i>
 					<p class="col s10 valign">Teams</p>
@@ -62,9 +68,9 @@
 				</a>
 			</li>
 			<li class="menu-item row">
-				<a href="/admin/judge" class="valign-wrapper grey-text text-darken-3">
-					<i class="material-icons col s2 valign">gavel</i>
-					<p class="col s10 valign">Judge</p>
+				<a href="/admin/admins" class="valign-wrapper grey-text text-darken-3">
+					<i class="material-icons col s2 valign">face</i>
+					<p class="col s10 valign">Admins</p>
 				</a>
 			</li>
 			<li class="menu-item row">

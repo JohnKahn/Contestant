@@ -6,9 +6,107 @@ use Phalcon\Filter;
 class AdminController extends Controller {
 
 	private $timeout = 21600;
+	private $noLoginRedirect = false;
+
+	public function loginAction() {
+		$this->noLoginRedirect = true;
+		$this->checkLogin();
+
+		$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
+		if (!$this->flashSession->has("error") && $this->session->has("admin_user")) {
+			return $this->response->redirect("/admin");
+		}
+	}
+
+	public function logoutAction() {
+		$this->checkLogin();
+
+		$this->session->remove("admin_user");
+		$this->session->remove("admin_key");
+		$this->session->remove("admin_timeout");
+
+		return $this->response->redirect("/admin/login");
+	}
 
 	public function indexAction() {
-		if ($this->request->isPost()) {
+		$this->checkLogin();
+	}
+
+	public function judgeAction() {
+		$this->checkLogin();
+	}
+
+	public function teamsAction() {
+		$this->checkLogin();
+
+		if ($this->request->isPost() && $this->request->hasPost("type") && $this->security->checkToken()) {
+			$this->session->set("changeOccurred", true);
+			$this->session->set("changeSuccessful", true);
+			switch ($this->request->getPost("type")) {
+				case 'update':
+					$team = Teams::findFirst(intval($this->request->getPost("id")));
+
+					if ($team) {
+						$team->setUsername($this->request->getPost("user"));
+						if ($this->request->getPost("pass") != "") {
+							$team->setPassword($this->request->getPost("pass"));
+						}
+						$team->save();
+					} else {
+						$this->session->set("changeSuccessful", false);
+					}
+					break;
+				
+				case 'create':
+					$team = new Teams();
+					$team->setUsername($this->request->getPost("user"));
+					$team->setPassword($this->request->getPost("pass"));
+					if (!$team->save()) {
+						$this->session->set("changeSuccessful", false);
+					}
+					break;
+
+				case 'delete':
+					$team = Teams::findFirst(intval($this->request->getPost("id")));
+					if ($team->delete() == false) {
+						$this->session->set("changeSuccessful", false);
+					}
+					break;
+
+				default:
+					$this->session->set("changeSuccessful", false);
+					break;
+			}
+			return $this->response->redirect("/admin/teams");
+		} else {
+			if ($this->session->has("changeOccurred")) {
+				$this->view->changeOccurred = $this->session->get("changeOccurred");
+				$this->session->remove("changeOccurred");
+			}
+
+			if ($this->session->has("changeSuccessful")) {
+				$this->view->changeSuccessful = $this->session->get("changeSuccessful");
+				$this->session->remove("changeSuccessful");
+			}
+		}
+
+		$this->view->teams = teams::find();
+	}
+
+	public function problemsAction() {
+		$this->checkLogin();
+	}
+
+	public function adminsAction() {
+		$this->checkLogin();
+	}
+
+	public function configurationAction() {
+		$this->checkLogin();
+	}
+
+	public function checkLogin() {
+		if ($this->request->isPost() && $this->request->hasPost("type") && $this->request->getPost("type") == "login") {
 			$filter = new Filter();
 
 			$filter->add('username', function ($value) {
@@ -63,46 +161,10 @@ class AdminController extends Controller {
 				return $this->response->redirect("/admin/login");
 			}
 		} else {
-			$this->flashSession->error("Please sign in first");
-			return $this->response->redirect("/admin/login");
-		}
-	}
-
-	public function loginAction() {
-		$this->view->setRenderLevel(\Phalcon\Mvc\View::LEVEL_ACTION_VIEW);
-		if (!$this->flashSession->has("error") && $this->session->has("admin_user")) {
-			return $this->response->redirect("/admin");
-		}
-	}
-
-	public function logoutAction() {
-		if ($this->session->has("admin_user")) {
-			$this->session->remove("admin_user");
-			$this->session->remove("admin_key");
-			$this->session->remove("admin_timeout");
-		}
-
-		return $this->response->redirect("/admin/login");
-	}
-
-	public function teamsAction() {
-		if ($this->request->isAjax() && $this->request->isPost()) {
-			if ($this->request->hasPost("type") && $this->request->has("")) {
-				
+			if (!$this->noLoginRedirect) {
+				$this->flashSession->error("Please sign in first");
+				return $this->response->redirect("/admin/login");
 			}
 		}
 	}
-
-	public function problemsAction() {
-
-	}
-
-	public function judgeAction() {
-
-	}
-
-	public function configurationAction() {
-
-	}
-
 }
