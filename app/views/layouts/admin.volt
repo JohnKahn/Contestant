@@ -9,6 +9,7 @@
 	<div class="col l2 m3 hide-on-small-only admin-sidebar white z-depth-2">
 		<div class="menu-header">
 			<img src="/img/placeholder_admin.jpg">
+			<p class="white-text">{{ session.get("admin_user") }}</p>
 		</div>
 		<ul class="menu">
 			<li class="menu-item row">

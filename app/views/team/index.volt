@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block content %}
-
+{% set token    = this.security.getToken() %}
+{% set tokenKey = this.security.getTokenKey() %}
 <div class="row fill-height no-mar">
 	<div class="col s12 m5 l3 blue-grey darken-3 white-text">
 		<h3 class="center-align" style="margin-bottom: 0;">Submission</h3>
@@ -23,19 +24,9 @@
 				<div class="input-field col s12">
 					<select required>
 						<option value="" disabled selected>Choose a problem</option>
-						<option value="1">Problem 1</option>
-						<option value="2">Problem 2</option>
-						<option value="3">Problem 3</option>
-						<option value="4">Problem 4</option>
-						<option value="5">Problem 5</option>
-						<option value="6">Problem 6</option>
-						<option value="7">Problem 7</option>
-						<option value="8">Problem 8</option>
-						<option value="9">Problem 9</option>
-						<option value="10">Problem 10</option>
-						<option value="11">Problem 11</option>
-						<option value="12">Problem 12</option>
-						
+						{% for problem in problems %}
+							<option value="{{ problem.getName() }}">{{ problem.getName() }}</option>
+						{% endfor %}
 					</select>
 					<label>Problem</label>
 				</div>
@@ -60,19 +51,9 @@
 				<div class="input-field col s12">
 					<select required>
 						<option value="" disabled selected>Choose a problem</option>
-						<option value="1">Problem 1</option>
-						<option value="2">Problem 2</option>
-						<option value="3">Problem 3</option>
-						<option value="4">Problem 4</option>
-						<option value="5">Problem 5</option>
-						<option value="6">Problem 6</option>
-						<option value="7">Problem 7</option>
-						<option value="8">Problem 8</option>
-						<option value="9">Problem 9</option>
-						<option value="10">Problem 10</option>
-						<option value="11">Problem 11</option>
-						<option value="12">Problem 12</option>
-						
+						{% for problem in problems %}
+							<option value="{{ problem.getName() }}">{{ problem.getName() }}</option>
+						{% endfor %}
 					</select>
 					<label>Problem</label>
 				</div>
@@ -224,13 +205,16 @@
 						</ul>
 					</div>
 					<div class="col s12 m10 right no-pad">
+						<div id="editorMenu" class="grey lighten-2 valign-wrapper">
+							<p>Last saved at 3:55:22pm</p>
+						</div>
 						<div id="editor"></div>
 					</div>
 				</div>
 
 				<div id="newFileModal" class="modal">
 					<div class="modal-content">
-						<h4>New File Name</h4>
+						<h4>New File</h4>
 						<div class="input-field col s12 m6">
 							<input id="newFileName" name="newFileName" type="text">
 							<label for="newFileName">Filename</label>
@@ -238,7 +222,7 @@
 					</div>
 					<div class="modal-footer">
 						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
-						<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Create</a>
+						<a href="javascript:newFile();" class="modal-action modal-close waves-effect waves-green btn-flat ">Create</a>
 					</div>
 				</div>
 			</div>
@@ -282,11 +266,6 @@
 	$('ul.tabs').tabs();
 	$('.newFileModal').leanModal();
 
-	var editor = ace.edit("editor");
-		editor.setTheme("ace/theme/xcode");
-		editor.getSession().setMode("ace/mode/java");
-		editor.setShowPrintMargin(false);
-
 	if ($("#fileTypeCheck").is(":checked")) {
 		$("#localSubmissionForm").css("display", "none");
 	} else {
@@ -297,5 +276,33 @@
 		$("#serverSubmissionForm").toggle();
 		$("#localSubmissionForm").toggle();
 	});
+
+	var editor = ace.edit("editor");
+	editor.setTheme("ace/theme/xcode");
+	editor.getSession().setMode("ace/mode/java");
+	editor.setShowPrintMargin(false);
+	editor.$blockScrolling = Infinity;
+	editor.setValue("class HelloWorld {\n\tpublic static void main(String... args) {\n\t\tSystem.out.println(\"Hello World!\");\n\t}\n}", -1);
+
+	files = [];
+	{% for serverFile in serverFiles %}
+		files["{{ serverFile.getName() }}"] = "{{ serverFile.getFileContentsEscaped() }}";
+	{% endfor %}
+
+	function newFile() {
+		var filename = $("input[name='newFileName']").val();
+		var fileContent = editor.getValue();
+		$.post("/team/newFile", {
+			"{{ tokenKey }}" : "{{ token }}",
+			"content"        : fileContent,
+			"filename"       : filename
+		}, function(data) {
+			if (data.success == "true") {
+				Materialize.toast($('<div class="valign-wrapper"><i class="material-icons green-text valign">done</i><span class="valign" style="margin-left:5px;">File created</span></div>'), 3000);
+			} else {
+				Materialize.toast($('<div class="valign-wrapper"><i class="material-icons red-text valign">clear</i><span class="valign" style="margin-left:5px;">File not created</span></div>'), 3000);
+			}
+		});
+	}
 </script>
 {% endblock %}

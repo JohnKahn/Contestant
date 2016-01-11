@@ -7,7 +7,7 @@
 	</div>
 	<div class="col s12 m8">
 		<div class="card">
-			<div class="card-content amber lighten-4">
+			<div class="card-content">
 				<h5 class="grey-text text-darken-3 center-align">Number of Correct Submissions per Problem</h5>
 				<div id="problem_completion_graph" class="dark_graph"></div>
 			</div>
@@ -24,10 +24,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-						</tr>
 					</tbody>
 				</table>
 			</div>

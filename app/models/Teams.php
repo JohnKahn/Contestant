@@ -4,12 +4,14 @@ use Phalcon\Mvc\Model;
 use Phalcon\Security;
 
 class Teams extends Model {
-	protected $id;   // id
-	protected $user; // username
-	protected $pass; // password (hashed)
+	protected $id;    // id (int)
+	protected $user;  // username (string)
+	protected $pass;  // password (string hashed)
+	protected $score; // score (int)
 
 	public function initialize() {
 		$this->hasMany("id", "Submissions", "team_id");
+		$this->hasMany("id", "ServerFiles", "team_id");
 	}
 
 	public function getId() {
@@ -31,5 +33,13 @@ class Teams extends Model {
 	public function setPassword($newPass) {
 		$security = new Security();
 		$this->pass = $security->hash($newPass);
+	}
+
+	public function getScore() {
+		return $this->score;
+	}
+
+	public function setScore($newScore) {
+		$this->score = $newScore;
 	}
 }

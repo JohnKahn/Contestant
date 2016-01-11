@@ -1,6 +1,7 @@
 <?php
 
 use Phalcon\Mvc\Model;
+use Phalcon\Security;
 
 class Admins extends Model {
 	protected $id;   // id
@@ -15,7 +16,16 @@ class Admins extends Model {
 		return $this->user;
 	}
 
+	public function setUsername($newUsername) {
+		$this->user = $newUsername;
+	}
+
 	public function getPassword() {
 		return $this->pass;
+	}
+
+	public function setPassword($newPassword) {
+		$security = new Security();
+		$this->pass = $security->hash($newPassword);
 	}
 }

@@ -7,7 +7,7 @@
 			<p class="valign">Teams</p>
 		</h4>
 	</div>
-	<div class="col s12 m7">
+	<div class="col s12 m6">
 		<div class="card">
 			<div class="card-content">
 				<div class="row">
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col s12 m5">
+	<div class="col s12 m6">
 		<div class="card">
 			<div class="card-content">
 				<div class="row">
@@ -44,9 +44,13 @@
 						<form action="/admin/teams" method="post">
 							<input type="hidden" name="{{ tokenKey }}" value="{{ token }}">
 							<input type="hidden" name="type" value="generate">
-							<div class="input-field col s12">
+							<div class="input-field col s12 m6">
 								<input id="gen-username" name="user" type="text">
 								<label for="gen-username">Team Name Pattern</label>
+							</div>
+							<div class="input-field col s12 m6">
+								<input id="gen-num" name="num" type="number">
+								<label for="gen-num">Number of Teams</label>
 							</div>
 							<div class="center-align col s12">
 								<button class="btn waves-effect waves-light green" style="margin-top:10px;" type="submit" name="action">Submit
@@ -125,12 +129,46 @@
 	</div>
 </div>
 
+{% if teamsGenerated %}
+	<div id="generatedTeamInfo" class="modal">
+		<div class="modal-content row center-align">
+			<h5 class="grey-text text-darken-3">Generated Information</h5>
+			<small>Save this information. You will not be able to recover these if lost. You will have to recreate the user.</small>
+			<table class="striped stupidTable">
+				<thead>
+					<tr>
+						<th>Team Name</th>
+						<th>Password</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for team in genTeams %}
+						<tr>
+							<td>
+								{{ team["username"] }}
+							</td>
+							<td>
+								{{ team["password"] }}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endif %}
+
 <script type="text/javascript">
 	{% if changeOccurred %}
 		{% if changeSuccessful %}
 			Materialize.toast($('<div class="valign-wrapper"><i class="material-icons green-text valign">done</i><span class="valign" style="margin-left:5px;">Change Successful</span></div>'), 3000);
 		{% else %}
 			Materialize.toast($('<div class="valign-wrapper"><i class="material-icons red-text valign">clear</i><span class="valign" style="margin-left:5px;">Change Failed</span></div>'), 3000);
+		{% endif %}
+
+		{% if teamsGenerated %}
+			$("#generatedTeamInfo").openModal();
 		{% endif %}
 	{% endif %}
 </script>
