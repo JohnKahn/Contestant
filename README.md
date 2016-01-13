@@ -12,7 +12,7 @@ Utilizes Ace Editor in the browser so even if you cant locally compile, you can 
 
 You can edit the files on Ace and save them to the host computer where you can test and submit them.
 
-*The host must be able to compile Java and the client must have a keyboard to save files. (Ctrl + S)
+*The host must be able to compile Java and the client must have a keyboard to save files. (Ctrl + S) (Best with screens with a width of 1000px or more)
 
 ### Written in PHP, backed up by C
 Contestant uses PhalconPHP, a php framework written as a C-extension, optimized for speed!
