@@ -32,6 +32,10 @@ try {
 				  'compiledPath' => '../app/views/compiled/',
 				  'compileAlways' => true  
 				));
+				$compiler = $volt->getCompiler();
+				$compiler->addFilter('removeDots', function($resolvedArgs, $exprArgs) {
+					return 'str_replace(".", "", ' . $resolvedArgs . ')';
+				});
 				return $volt;
 			}
 		));

@@ -1,7 +1,7 @@
 a:7:{i:0;s:41:"<!DOCTYPE html>
 <html>
 <head>
-	<title>";s:5:"title";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:13:"Contestant - ";s:4:"file";s:30:"../app/views/layouts/main.volt";s:4:"line";i:4;}}i:1;s:1516:"</title>
+	<title>";s:5:"title";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:13:"Contestant - ";s:4:"file";s:30:"../app/views/layouts/main.volt";s:4:"line";i:4;}}i:1;s:1587:"</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -12,6 +12,7 @@ a:7:{i:0;s:41:"<!DOCTYPE html>
 	<?php echo $this->tag->stylesheetLink('css/chartist.min.css'); ?>
 
 	<?php echo $this->tag->javascriptInclude('js/jquery-2.1.1.min.js'); ?>
+	<?php echo $this->tag->javascriptInclude('js/jquery.hotkeys.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/materialize.min.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/snarl.min.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/chartist.min.js'); ?>
@@ -50,7 +51,7 @@ a:7:{i:0;s:41:"<!DOCTYPE html>
 			});
 		});
 	</script>
-	";s:4:"file";s:30:"../app/views/layouts/main.volt";s:4:"line";i:53;}}i:3;s:148:"
+	";s:4:"file";s:30:"../app/views/layouts/main.volt";s:4:"line";i:54;}}i:3;s:148:"
 	<script type="text/javascript">
 		$(window).load(function() {
 			$("#whiteCover").delay(500).fadeOut(250);

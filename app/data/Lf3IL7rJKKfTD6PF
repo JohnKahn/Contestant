@@ -1,0 +1,11 @@
+class DryRun {
+    public static void main(String... args) {
+        start(new String(Files.readAllBytes(Paths.get("data.dat"))));
+    }
+    
+    public static void start(String data) {
+        Scanner scan = new Scanner(data);
+        
+        System.out.println(scan.nextLine());
+    }
+}

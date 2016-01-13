@@ -162,7 +162,7 @@ class AdminController extends Controller {
 								foreach ($this->request->getUploadedFiles() as $file){
 									if ($file->getKey() == "dataFile") {
 										unlink($problem->getDataFile());
-										$dataFileLocation = "../app/data/" . Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, rand(13, 17)) . ".dat";
+										$dataFileLocation = "../app/data/" . Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, rand(13, 17));
 										$problem->setDataFile($dataFileLocation);
 										$problem->setDataFileFriendly($file->getName());
 										$file->moveTo($dataFileLocation);
@@ -182,7 +182,7 @@ class AdminController extends Controller {
 								foreach ($this->request->getUploadedFiles() as $file){
 									if ($file->getKey() == "judgeFile") {
 										unlink($problem->getJudgeFile());
-										$judgeFileLocation = "../app/data/" . Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, rand(13, 17)) . ".dat";
+										$judgeFileLocation = "../app/data/" . Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, rand(13, 17));
 										$problem->setJudgeFile($judgeFileLocation);
 										$problem->setJudgeFileFriendly($file->getName());
 										$file->moveTo($judgeFileLocation);
@@ -214,14 +214,14 @@ class AdminController extends Controller {
 					if ($this->request->hasFiles()) {
 						foreach ($this->request->getUploadedFiles() as $file){
 							if ($file->getKey() == "dataFile" && $this->request->hasPost("hasDataFile")) {
-								$dataFileLocation = "../app/data/" . Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, rand(13, 17)) . ".dat";
+								$dataFileLocation = "../app/data/" . Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, rand(13, 17));
 								$problem->setDataFile($dataFileLocation);
 								$problem->setDataFileFriendly($file->getName());
 								$file->moveTo($dataFileLocation);
 							}
 
 							if ($file->getKey() == "judgeFile" && $this->request->hasPost("hasJudgeFile")) {
-								$judgeFileLocation = "../app/data/" . Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, rand(13, 17)) . ".dat";
+								$judgeFileLocation = "../app/data/" . Phalcon\Text::random(Phalcon\Text::RANDOM_ALNUM, rand(13, 17));
 								$problem->setJudgeFile($judgeFileLocation);
 								$problem->setJudgeFileFriendly($file->getName());
 								$file->moveTo($judgeFileLocation);

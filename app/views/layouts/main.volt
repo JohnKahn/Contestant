@@ -12,6 +12,7 @@
 	{{ stylesheet_link("css/chartist.min.css") }}
 
 	{{ javascript_include("js/jquery-2.1.1.min.js") }}
+	{{ javascript_include("js/jquery.hotkeys.js") }}
 	{{ javascript_include("js/materialize.min.js") }}
 	{{ javascript_include("js/snarl.min.js") }}
 	{{ javascript_include("js/chartist.min.js") }}

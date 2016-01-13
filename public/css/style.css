@@ -1,3 +1,10 @@
+#toast-container {
+	position: fixed;
+	top: 50px;
+	right: 50px;
+	left: 50%;
+}
+
 @media screen and (min-width: 600px) {
 	.fill-height {
 		margin: 0;
@@ -59,6 +66,7 @@
 	height: calc(100vh - 48px);
 	padding: 0;
 	background-color: #e8e8e8;
+	overflow: auto;
 }
 
 #editorFileList h6 {
@@ -71,16 +79,35 @@
 }
 
 #editorFileList li a {
-	display: block;
+	display: inline-block;
 	font-size: 0.85em;
 }
 
-#editorFileList li:nth-child(odd) a {
+#editorFileList li a:not(.trash) {
+	width: calc(100% - 34px);
+}
+
+#editorFileList li:nth-child(odd) {
 	background: hsla(0, 0%, 0%, 0.05);
 }
 
-#editorFileList li a:hover {
+#editorFileList li:hover {
 	background: hsla(0, 0%, 0%, 0.1);
+}
+
+#editorFileList li a.trash {
+	display: inline;
+	padding: 0;
+}
+
+#editorFileList li a.trash:hover i {
+	color: #f44336;
+}
+
+#editorFileList li a.trash i {
+	display: inline-block;
+	position: relative;
+	top: 5px;
 }
 
 .tabs > .indicator {

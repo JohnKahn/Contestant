@@ -14,6 +14,7 @@
 	<?php echo $this->tag->stylesheetLink('css/chartist.min.css'); ?>
 
 	<?php echo $this->tag->javascriptInclude('js/jquery-2.1.1.min.js'); ?>
+	<?php echo $this->tag->javascriptInclude('js/jquery.hotkeys.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/materialize.min.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/snarl.min.js'); ?>
 	<?php echo $this->tag->javascriptInclude('js/chartist.min.js'); ?>

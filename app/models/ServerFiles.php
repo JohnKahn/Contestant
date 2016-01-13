@@ -6,7 +6,7 @@ class ServerFiles extends Model {
 	protected $id;           // id (int)
 	protected $team_id;      // team that this file belongs to (string)
 	protected $friendlyName; // friendly file name (string)
-	protected $name;         // file name that the server uses (string)
+	protected $path;         // file name that the server uses (string)
 	protected $lastSave;     // last save time (string)
 
 	public function initialize() {
@@ -25,23 +25,37 @@ class ServerFiles extends Model {
 		return $this->friendlyName;
 	}
 
+	public function getFriendlyNameNoExtension() {
+		$temp = explode(".", $this->friendlyName);
+		unset($temp[count($temp) - 1]);
+		return implode(".", $temp);	
+	}
+
 	public function setFriendlyName($newFriendlyName) {
 		$this->friendlyName = $newFriendlyName;
 	}
 
-	public function getName() {
-		return $this->name;
+	public function getPath() {
+		return $this->path;
 	}
 
-	public function setName($newName) {
-		$this->name = $newName;
+	public function setPath($newPath) {
+		$this->path = $newPath;
 	}
 
 	public function getFileContents() {
-		return file_get_contents("../data/{$this->name}");
+		return file_get_contents($this->path);
 	}
 
 	public function getFileContentsEscaped() {
-		return str_replace("\t", "\\t", str_replace("\n", "\\n", $this->getFileContents()));
+		return str_replace('"', '\"', str_replace("\t", "\\t", str_replace("\n", "\\n", $this->getFileContents())));
+	}
+
+	public function getLastSave() {
+		return $this->lastSave;
+	}
+
+	public function setLastSave($newLastSave) {
+		$this->lastSave = $newLastSave;
 	}
 }

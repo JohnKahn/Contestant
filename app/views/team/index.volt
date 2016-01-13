@@ -94,18 +94,12 @@
 					</thead>
 
 					<tbody>
-						<tr>
-							<td>Team2</td>
-							<td>760</td>
-						</tr>
-						<tr>
-							<td>Team1</td>
-							<td>700</td>
-						</tr>
-						<tr>
-							<td>Team3</td>
-							<td>620</td>
-						</tr>
+						{% for team in teams %}
+							<tr {% if team.getUsername() == session.get("team_user") %}class="amber lighten-4"{% endif %}>
+								<td>{{ team.getUsername() }}</td>
+								<td>{{ team.getScore() }}</td>
+							</tr>
+						{% endfor %}
 					</tbody>
 				</table>
 			</div>
@@ -198,15 +192,15 @@
 					<div id="editorFileList" class="col s12 m2">
 						<h6>File List</h6>
 						<ul>
-							<li><a class="newFileModal" href="#newFileModal"><i class="material-icons" style="font-size: 1.3em; position: relative; top: 3px;">add</i> New File</a></li>
-							<li><a href="javascript:void(0);">ArbFib.java</a></li>
-							<li><a href="javascript:void(0);">CandyStore.java</a></li>
-							<li><a href="javascript:void(0);">DryRun.java</a></li>
+							<li class="noSort"><a class="newFileModal" href="#newFileModal"><i class="material-icons" style="font-size: 1.3em; position: relative; top: 3px;">add</i> New File</a></li>
+							{% for serverFile in serverFiles %}
+								<li id="sfItem{{ serverFile.getFriendlyName()|removeDots }}"><a href="javascript:changeActiveFile('{{ serverFile.getFriendlyName() }}');">{{ serverFile.getFriendlyName() }}</a><a class="trash" href="#delete{{ serverFile.getFriendlyName()|removeDots }}"><i class="material-icons">clear</i></a></li>
+							{% endfor %}
 						</ul>
 					</div>
 					<div class="col s12 m10 right no-pad">
 						<div id="editorMenu" class="grey lighten-2 valign-wrapper">
-							<p>Last saved at 3:55:22pm</p>
+							<p class="valign">Please select a file to the left</p>
 						</div>
 						<div id="editor"></div>
 					</div>
@@ -225,6 +219,19 @@
 						<a href="javascript:newFile();" class="modal-action modal-close waves-effect waves-green btn-flat ">Create</a>
 					</div>
 				</div>
+
+				{% for serverFile in serverFiles %}
+					<div id="delete{{ serverFile.getFriendlyName()|removeDots }}" class="modal">
+						<div class="modal-content">
+							<h4>Delete {{ serverFile.getFriendlyName() }}</h4>
+							<p>Are you sure you would like to delete this file?</p>
+						</div>
+						<div class="modal-footer">
+							<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Cancel</a>
+							<a href="javascript:deleteFile('{{ serverFile.getFriendlyName() }}');" class="modal-action modal-close waves-effect waves-green btn-flat ">Delete</a>
+						</div>
+					</div>
+				{% endfor %}
 			</div>
 		</div>
 	</div>
@@ -264,7 +271,11 @@
 	});
 
 	$('ul.tabs').tabs();
-	$('.newFileModal').leanModal();
+	$('a[href*="newFileModal"]').leanModal();
+	{% for serverFile in serverFiles %}
+		$('a[href*="delete{{ serverFile.getFriendlyName()|removeDots }}"]').leanModal();
+	{% endfor %}
+
 
 	if ($("#fileTypeCheck").is(":checked")) {
 		$("#localSubmissionForm").css("display", "none");
@@ -277,32 +288,181 @@
 		$("#localSubmissionForm").toggle();
 	});
 
-	var editor = ace.edit("editor");
+	editor = ace.edit("editor");
 	editor.setTheme("ace/theme/xcode");
 	editor.getSession().setMode("ace/mode/java");
 	editor.setShowPrintMargin(false);
 	editor.$blockScrolling = Infinity;
-	editor.setValue("class HelloWorld {\n\tpublic static void main(String... args) {\n\t\tSystem.out.println(\"Hello World!\");\n\t}\n}", -1);
+	editor.setReadOnly(true);
 
-	files = [];
+	activeFile = "";
+	serverFiles = [];
 	{% for serverFile in serverFiles %}
-		files["{{ serverFile.getName() }}"] = "{{ serverFile.getFileContentsEscaped() }}";
+		serverFiles["{{ serverFile.getFriendlyName() }}"] = {
+			contents : "{{ serverFile.getFileContentsEscaped() }}",
+			changed  : false,
+			lastSave : "{{ serverFile.getLastSave() }}"
+		};
 	{% endfor %}
+
+	function sortFileList() {
+		var temp = [];
+		$("#editorFileList ul").html($("#editorFileList ul li").not(".noSort").get().sort(function(a, b) {
+			a = $.trim($(a).text());
+			b = $.trim($(b).text());
+			return (a > b) ? 1 : ((a < b) ? -1 : 0);
+		}));
+		$("#editorFileList ul").prepend($("<li class=\"noSort\"><a class=\"newFileModal\" href=\"#newFileModal\"><i class=\"material-icons\" style=\"font-size: 1.3em; position: relative; top: 3px;\">add</i> New File</a></li>"));
+		$('.newFileModal').leanModal();
+		console.log("Sorted");
+	}
 
 	function newFile() {
 		var filename = $("input[name='newFileName']").val();
-		var fileContent = editor.getValue();
-		$.post("/team/newFile", {
-			"{{ tokenKey }}" : "{{ token }}",
-			"content"        : fileContent,
-			"filename"       : filename
-		}, function(data) {
-			if (data.success == "true") {
+
+		var lastSave = getLastSave();
+
+		$.post("/team/newServerFile", {
+			"filename"       : filename,
+			"team_id"        : "{{ session.get('team_id') }}",
+			"lastSave"       : lastSave
+		}, function(raw) {
+			var data = JSON.parse(raw);
+			$("input#newFileName").val("");
+			if (data.success) {
 				Materialize.toast($('<div class="valign-wrapper"><i class="material-icons green-text valign">done</i><span class="valign" style="margin-left:5px;">File created</span></div>'), 3000);
+				$("#editorFileList ul").append("<li id=\"sfItem" + replaceAll(data.friendlyName, '.', '') + "\"><a href=\"javascript:changeActiveFile('" + data.friendlyName + "');\">" + data.friendlyName + "</a><a class=\"trash\" href=\"#delete" + replaceAll(data.friendlyName, '.', '') + "\"><i class=\"material-icons\">clear</i></a></li>");
+				serverFiles[data.friendlyName] = {
+					contents : "",
+					changed  : false,
+					lastSave : lastSave
+				};
+				sortFileList();
+				changeActiveFile(data.friendlyName);
 			} else {
-				Materialize.toast($('<div class="valign-wrapper"><i class="material-icons red-text valign">clear</i><span class="valign" style="margin-left:5px;">File not created</span></div>'), 3000);
+				Materialize.toast($('<div class="valign-wrapper"><i class="material-icons red-text valign">clear</i><span class="valign" style="margin-left:5px;">' + data.message + '</span></div>'), 3000);
 			}
 		});
 	}
+
+	saveTimeout = null;
+	progInput = false;
+	editor.on("change", function() {
+		if (!progInput) {
+			serverFiles[activeFile].changed = true;
+			serverFiles[activeFile].contents = editor.getValue();
+			$("#editorMenu > p").text("Last saved at " + serverFiles[activeFile].lastSave + ". Use ctrl + s to save.");
+		}
+	});
+
+	function saveActiveFile(notify) {
+		if (activeFile != null) {
+			var lastSave = getLastSave();
+
+			if (notify) {
+				Materialize.toast($('<div class="valign-wrapper"><i class="material-icons blue-grey-text valign">save</i><span class="valign" style="margin-left:5px;">Saving</span></div>'), 1500);
+			}
+			
+			$.post("/team/saveServerFile", {
+				"filename" : activeFile,
+				"team_id"  : "{{ session.get('team_id') }}",
+				"content"  : editor.getValue(),
+				"lastSave" : lastSave
+			}, function(raw) {
+				var data = JSON.parse(raw);
+				if (data.success) {
+					if (notify) {
+						Materialize.toast($('<div class="valign-wrapper"><i class="material-icons green-text valign">done</i><span class="valign" style="margin-left:5px;">File saved successfully</span></div>'), 1500);
+					}
+					serverFiles[activeFile].lastSave = lastSave;
+					$("#editorMenu > p").text("File is up to date");
+				} else {
+					if (notify) {
+						Materialize.toast($('<div class="valign-wrapper"><i class="material-icons red-text valign">clear</i><span class="valign" style="margin-left:5px;">File failed to save. Please try again.</span></div>'), 1500);
+					}
+				}
+			});
+		}
+	}
+
+	function deleteFile(filename) {
+		$.post("/team/deleteServerFile", {
+			"filename" : filename,
+			"team_id"  : "{{ session.get('team_id') }}"
+		}, function(raw) {
+			var data = JSON.parse(raw);
+			if (data.success) {
+				Materialize.toast($('<div class="valign-wrapper"><i class="material-icons green-text valign">done</i><span class="valign" style="margin-left:5px;">File deleted successfully</span></div>'), 1500);
+				if (activeFile == filename) {
+					changeActiveFile(null);
+				}
+				$("#sfItem" + replaceAll(filename, '.', '')).remove();
+			} else {
+				Materialize.toast($('<div class="valign-wrapper"><i class="material-icons red-text valign">clear</i><span class="valign" style="margin-left:5px;">File failed to delete. Please try again Please try again.</span></div>'), 1500);
+			}
+		});
+	}
+
+	function changeActiveFile(filename) {
+		if (filename == null) {
+			editor.setReadOnly(true);
+			progInput = true;
+			editor.setValue("", -1);
+			progInput = false;
+		} else {
+			if (editor.getReadOnly()) editor.setReadOnly(false);
+			progInput = true;
+			editor.setValue(serverFiles[filename].contents, -1);
+			progInput = false;
+			$("#editorFileList a").filter(function() {return $(this).text() === activeFile;}).parent().removeClass("blue-grey lighten-3");
+			activeFile = filename;
+			if (serverFiles[activeFile].changed ) {
+				$("#editorMenu > p").text("Last saved at " + serverFiles[activeFile].lastSave + ". Use ctrl + s to save.");
+			} else {
+				$("#editorMenu > p").text("File is up to date");
+			}
+			$("#editorFileList a").filter(function() {return $(this).text() === activeFile;}).parent().addClass("blue-grey lighten-3");
+			editor.focus();
+		}
+	}
+
+	function getLastSave() {
+		var date    = new Date();
+		var hours   = date.getHours();
+		var minutes = date.getMinutes();
+		var seconds = date.getSeconds();
+		var ampm    = hours >= 12 ? 'pm' : 'am';
+		hours       = hours % 12;
+		hours       = hours ? hours : 12; // the hour '0' should be '12'
+		minutes     = minutes < 10 ? '0' + minutes : minutes;
+		seconds     = seconds < 10 ? '0' + seconds : seconds;
+		return hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+	}
+
+	function replaceAll(str, find, replace) {
+	  return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+	}
+
+	function escapeRegExp(str) {
+		return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
+	}
+
+	$(window).bind('keydown', 'ctrl+s', function(e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		setTimeout(function() {
+			saveActiveFile(true);
+		}, 0);
+		return false;
+	});
+
+	$("#editor *").bind('keydown', 'ctrl+s', function(e) {
+		e.preventDefault();
+		e.stopImmediatePropagation();
+		setTimeout(function() {
+			saveActiveFile(true);
+		}, 0);
+		return false;
+	});
 </script>
 {% endblock %}
