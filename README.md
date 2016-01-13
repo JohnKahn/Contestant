@@ -7,12 +7,12 @@ Uniform Server is included with Contestant and allows for a one button start and
 
 Currently the portable version is only for Windows. Mac and Linux portable versions will be coming soon. Until then, you must set up your own server to run php and phalcon.
 
-### Works on ChromeOS and Android*
+### Works on ChromeOS, iOS, and Android*
 Utilizes Ace Editor in the browser so even if you cant locally compile, you can still compete!
 
 You can edit the files on Ace and save them to the host computer where you can test and submit them.
 
-*The host must be able to compile Java
+*The host must be able to compile Java and the client must have a keyboard to save files. (Ctrl + S)
 
 ### Written in PHP, backed up by C
 Contestant uses PhalconPHP, a php framework written as a C-extension, optimized for speed!
